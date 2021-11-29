@@ -19,33 +19,45 @@ task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 export default {
   solidity: {
-    version: '0.8.4',
-    settings: {
-      optimizer: {
-        enabled: !!process.env.OPTIMIZER_ENABLED,
-        runs: 1000,
+    compilers: [
+      {
+        version: '0.4.21',
       },
-    },
+      {
+        version: '0.5.0',
+      },
+      {
+        version: '0.8.4',
+        settings: {
+          optimizer: {
+            enabled: !!process.env.OPTIMIZER_ENABLED,
+            runs: 1000,
+          },
+        },
+      },
+    ],
   },
 
   networks: {
+    localhost: {},
+
     hardhat: {
       initialBaseFeePerGas: 0, // workaround from https://github.com/sc-forks/solidity-coverage/issues/652#issuecomment-896330136 . Remove when that issue is closed.
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+        blockNumber: 13698020,
       },
     },
 
     rinkeby: {
       url: process.env.RINKEBY_URL || '',
+      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+
+    ropsten: {
+      url: process.env.ROPSTEN_URL || '',
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
   },
