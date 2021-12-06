@@ -8,6 +8,7 @@ import 'solidity-coverage';
 import 'hardhat-watcher';
 import { task } from 'hardhat/config';
 import path from 'path';
+import { HardhatNetworkConfig } from 'hardhat/types';
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -52,6 +53,7 @@ export default {
     hardhat: {
       initialBaseFeePerGas: 0, // workaround from https://github.com/sc-forks/solidity-coverage/issues/652#issuecomment-896330136 . Remove when that issue is closed.
       forking: {
+        enabled: !!process.env.USE_FORK,
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         blockNumber: 13698020,
       },

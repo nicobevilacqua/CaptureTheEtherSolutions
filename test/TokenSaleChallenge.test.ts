@@ -4,17 +4,12 @@ import { Contract } from 'ethers';
 import { ethers, network } from 'hardhat';
 const { utils, constants } = ethers;
 
-describe('', () => {
+describe('TokenSaleChallenge', () => {
   let target: Contract;
   let owner: SignerWithAddress;
   let attacker: SignerWithAddress;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     [owner, attacker] = await ethers.getSigners();
 
     const targetFactory = await ethers.getContractFactory('TokenSaleChallenge');

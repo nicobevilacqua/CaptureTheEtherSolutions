@@ -11,11 +11,6 @@ describe('TokenWhaleChallenge', () => {
   let user2: SignerWithAddress;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     [attacker, user1, user2] = await ethers.getSigners();
 
     const targetFactory = await ethers.getContractFactory('TokenWhaleChallenge');

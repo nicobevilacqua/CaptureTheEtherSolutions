@@ -1,19 +1,19 @@
 import { expect } from 'chai';
 import { Contract, Wallet } from 'ethers';
-import { ethers, network } from 'hardhat';
+import { ethers } from 'hardhat';
 import crypto from 'crypto';
 
-const { utils, provider, Wallet, BigNumber } = ethers;
+const { utils, provider, BigNumber } = ethers;
 
 function getWallet() {
-  let wallet;
+  let wallet: Wallet;
   let contractAddress;
   let counter = 0;
   let privateKey;
   while (1) {
     privateKey = `0x${crypto.randomBytes(32).toString('hex')}`;
 
-    wallet = new Wallet(privateKey);
+    wallet = new ethers.Wallet(privateKey);
 
     contractAddress = utils.getContractAddress({
       from: wallet.address,
@@ -37,11 +37,6 @@ describe('FuzzyIdentityChallenge', () => {
   let wallet: Wallet;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     const targetFactory = await ethers.getContractFactory('FuzzyIdentityChallenge');
     target = await targetFactory.deploy();
     await target.deployed();

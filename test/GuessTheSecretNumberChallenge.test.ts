@@ -11,11 +11,6 @@ describe('GuessTheSecretNumberChallenge', () => {
   let target: Contract;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     const targetFactory = await ethers.getContractFactory('GuessTheSecretNumberChallenge');
     target = await targetFactory.deploy({
       value: utils.parseEther('1'),

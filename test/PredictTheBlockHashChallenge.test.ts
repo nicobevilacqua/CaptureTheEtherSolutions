@@ -3,7 +3,7 @@ import { Contract } from 'ethers';
 import { ethers, network } from 'hardhat';
 const { utils, provider } = ethers;
 
-describe('', () => {
+describe('PredictTheBlockHashChallenge', () => {
   let target: Contract;
 
   before(async () => {

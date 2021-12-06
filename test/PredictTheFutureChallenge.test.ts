@@ -8,11 +8,6 @@ describe('PredictTheFutureChallenge', () => {
   let attacker: Contract;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     const targetFactory = await ethers.getContractFactory('PredictTheFutureChallenge');
 
     target = await targetFactory.deploy({

@@ -10,11 +10,6 @@ describe('DonationChallenge', () => {
   let attacker: SignerWithAddress;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     [owner, attacker] = await ethers.getSigners();
 
     const targetFactory = await ethers.getContractFactory('DonationChallenge');

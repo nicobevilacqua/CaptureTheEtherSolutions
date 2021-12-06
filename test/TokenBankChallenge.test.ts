@@ -13,11 +13,6 @@ describe('TokenBankChallenge', () => {
   let hacker: SignerWithAddress;
 
   before(async () => {
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     [owner, hacker] = await ethers.getSigners();
 
     const [targetFactory, tokenFactory] = await Promise.all([
@@ -31,7 +26,7 @@ describe('TokenBankChallenge', () => {
 
     const tokenAddress = await target.token();
 
-    const token = await tokenFactory.attach(tokenAddress);
+    token = await tokenFactory.attach(tokenAddress);
 
     await token.deployed();
 
@@ -44,7 +39,7 @@ describe('TokenBankChallenge', () => {
 
     const attacker = await attackerFactory.connect(hacker).deploy(target.address);
 
-    await attacker.wait();
+    await attacker.deployed();
 
     console.log('Attacker deployed to:', attacker.address);
 

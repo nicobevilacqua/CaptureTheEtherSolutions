@@ -9,12 +9,6 @@ describe('FiftyYearsChallenge', () => {
   let owner: SignerWithAddress;
 
   before(async () => {
-    // remove fork
-    await network.provider.request({
-      method: 'hardhat_reset',
-      params: [],
-    });
-
     [owner] = await ethers.getSigners();
 
     const TargetFactory = await ethers.getContractFactory('FiftyYearsChallenge');
