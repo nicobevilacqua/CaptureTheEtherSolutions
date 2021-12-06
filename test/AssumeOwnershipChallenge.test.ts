@@ -2,9 +2,8 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract } from 'ethers';
 import { network, ethers } from 'hardhat';
-const { utils, provider } = ethers;
 
-describe('', () => {
+describe('AssumeOwnershipChallenge', () => {
   let target: Contract;
   let owner: SignerWithAddress;
   let attacker: SignerWithAddress;
@@ -22,13 +21,13 @@ describe('', () => {
 
     await target.deployed();
 
-    console.log('deployed on', target.address);
+    console.log('Target deployed to:', target.address);
   });
 
   it('Exploit', async () => {
     let tx;
 
-    // The constructor was mispellign
+    // The constructor was misspelled
     tx = await target.connect(attacker).AssumeOwmershipChallenge();
     await tx.wait();
 

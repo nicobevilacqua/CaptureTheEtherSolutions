@@ -1,10 +1,9 @@
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract } from 'ethers';
 import { ethers, network } from 'hardhat';
 const { utils, provider } = ethers;
 
-describe('', () => {
+describe('GuessTheNumberChallenge', () => {
   let target: Contract;
 
   before(async () => {
@@ -19,10 +18,10 @@ describe('', () => {
     });
     await target.deployed();
 
-    console.log('deployed on', target.address);
+    console.log('Target deployed to:', target.address);
   });
 
-  it('exploit', async () => {
+  it('Exploit', async () => {
     const tx = await target.guess(42, {
       value: utils.parseEther('1'),
     });

@@ -1,7 +1,7 @@
 import { SignatureLike } from '@ethersproject/bytes';
 import { Transaction } from 'ethers';
 import { ethers } from 'hardhat';
-const { utils, provider } = ethers;
+const { provider } = ethers;
 
 const address = '0x6497226Be242859A5eFAe220db9527642996CE05';
 const owner = '0x92b28647ae1f3264661f72fb2eb9625a89d88a31';
@@ -61,20 +61,6 @@ async function main() {
   await target.deployed();
 
   console.log('target deployed to:', target.address);
-
-  async function tryPubKey(pubKey: string): Promise<boolean> {
-    console.log('trying pub key:', pubKey);
-    try {
-      const tx = await target.authenticate(pubKey, {
-        gasLimit: 100000,
-      });
-      await tx.wait();
-      return await target.isComplete();
-    } catch (error) {
-      console.log('error');
-      return false;
-    }
-  }
 
   const pubKeys = await Promise.all(txHashes.map((txHash) => getPublicKeyFromTrasaction(txHash)));
 

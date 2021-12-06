@@ -19,6 +19,12 @@ task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
   }
 });
 
+const accounts = [
+  process.env.PRIVATE_KEY,
+  process.env.PRIVATE_KEY2,
+  process.env.PRIVATE_KEY3,
+].filter((a) => !!a);
+
 export default {
   solidity: {
     compilers: [
@@ -53,12 +59,12 @@ export default {
 
     rinkeby: {
       url: process.env.RINKEBY_URL || '',
-      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      accounts,
     },
 
     ropsten: {
       url: process.env.ROPSTEN_URL || '',
-      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      accounts,
     },
   },
 

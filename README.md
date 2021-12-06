@@ -1,42 +1,56 @@
-# Advanced Sample Hardhat Project
+# Capture The Ether Solutions
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+A repo with the solutions for https://capturetheether.com/.
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+---
 
-Try running some of the following tasks:
+## Challenges
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.js
-node scripts/deploy.js
-npx eslint '**/*.js'
-npx eslint '**/*.js' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
-```
+### Warmup
 
-# Etherscan verification
+The warmup challenges are intended to get you familiar with the way Capture the Ether works and the tools you need to use.
 
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
+1. [Deploy a contract](./scripts/DeployChallenge.ts)
+2. [Call me](./scripts/CallMeChallenge.ts)
+3. [Choose a nickname](./scripts/NicknameChallenge.ts)
 
-In this project, copy the .env.template file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+### Lotteries
 
-```shell
-hardhat run --network ropsten scripts/deploy.js
-```
+Feeling lucky? These challenges will show how hard it is to run a fair lottery.
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+1. [Guess the number](./test/GuessTheNumberChallenge.test.ts)
+2. [Guess the secret number](./test/GuessTheSecretNumberChallenge.test.ts)
+3. [Guess the random number](./test/GuessTheRandomNumberChallenge.test.ts)
+4. [Guess the new number](./test/GuessTheNewNumberChallenge.test.ts)
+5. [Predict the future](./test/PredictTheFutureChallenge.test.ts)
+6. [Predict the block hash](./test/PredictTheBlockHashChallenge.test.ts)
 
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
+### Math
+
+These challenges use a variety of techniques, but they all involve a bit of math.
+
+1. [Token sale](./test/TokenSaleChallenge.test.ts)
+2. [Token whale](./test/TokenWhaleChallenge.test.ts)
+3. [Retirement fund](./test/RetirementFundChallenge.test.ts)
+4. [Mapping](./test/MappingChallenge.test.ts)
+5. [Donation](./test/DonationChallenge.test.ts)
+6. [Fifty years](./test/FiftyYearsChallenge.test.ts)
+
+### Accounts
+
+These challenges test your understanding of Ethereum accounts.
+
+1. [Fuzzy identity](./test/FuzzyIdentityChallenge.test.ts)
+2. [Public Key](./scripts/PublicKeyChallenge.ts)
+3. Account Takeover (TODO)
+
+### Miscellaneous
+
+These challenges defy categorization.
+
+1. [Assume ownership](./test/AssumeOwnershipChallenge.test.ts)
+2. [Token bank](./test/TokenBankChallenge.test.ts)
+
+---
+
+Challenges created by **SMARX**.

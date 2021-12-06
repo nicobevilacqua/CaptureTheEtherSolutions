@@ -7,7 +7,7 @@ async function main() {
   const target = await targetFactory.attach(address);
   await target.deployed();
 
-  console.log('deployed on', target.address);
+  console.log('Target deployed to:', target.address);
 
   let tx;
 

